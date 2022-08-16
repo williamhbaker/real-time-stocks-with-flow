@@ -3,22 +3,35 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
 	"os"
 
+	"github.com/Shopify/sarama"
 	"github.com/alpacahq/alpaca-trade-api-go/v2/marketdata/stream"
 )
 
 func main() {
+	producer, err := sarama.NewAsyncProducer([]string{"localhost:9092"}, nil)
+	if err != nil {
+		panic(err)
+	}
+
 	tradeHandler := func(t stream.Trade) {
-		bytes, _ := json.MarshalIndent(t, "", "\t")
-		fmt.Println(string(bytes))
+		bytes, err := json.Marshal(t)
+		if err != nil {
+			panic(err)
+		}
+
+		producer.Input() <- &sarama.ProducerMessage{Topic: "trades", Key: nil, Value: sarama.ByteEncoder(bytes)}
 	}
 
 	quoteHandler := func(q stream.Quote) {
-		bytes, _ := json.MarshalIndent(q, "", "\t")
-		fmt.Println(string(bytes))
+		bytes, err := json.Marshal(q)
+		if err != nil {
+			panic(err)
+		}
+
+		producer.Input() <- &sarama.ProducerMessage{Topic: "quotes", Key: nil, Value: sarama.ByteEncoder(bytes)}
 	}
 
 	c := stream.NewStocksClient(
