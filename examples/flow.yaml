@@ -1,0 +1,49 @@
+---
+collections:
+  examples/trades:
+    schema:
+      type: object
+      properties:
+        ID:
+          type: integer
+        Symbol:
+          type: string
+        Conditions:
+          type: array
+        Exchange:
+          type: string
+        Price:
+          type: number
+        Size:
+          type: integer
+        Tape:
+          type: string
+        Timestamp:
+          type: string
+      required:
+        - ID
+        - Symbol
+    key:
+      - /ID
+      - /Symbol
+captures:
+  examples/source-kafka:
+    endpoint:
+      connector:
+        image: "ghcr.io/estuary/source-kafka:dev"
+        config: source-kafka.config.yaml
+    bindings:
+      - resource:
+          stream: trades
+          syncMode: incremental
+        target: examples/trades
+
+materializations:
+  examples/sqlite:
+    endpoint:
+      sqlite:
+        path: database.sqlite?_journal_mode=WAL
+    bindings:
+      - source: examples/trades
+        resource:
+          table: trades
