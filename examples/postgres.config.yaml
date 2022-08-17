@@ -1,0 +1,5 @@
+---
+database: postgres
+address: "192.168.2.47:5435"
+password: postgres
+user: postgres

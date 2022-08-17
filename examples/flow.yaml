@@ -1,21 +1,50 @@
 ---
 collections:
-  examples/trades:
+  examples/quotes:
     schema:
-      type: object
       properties:
-        ID:
+        AskExchange:
+          type: string
+        AskPrice:
+          type: number
+        AskSize:
           type: integer
+        BidExchange:
+          type: string
+        BidPrice:
+          type: number
+        BidSize:
+          type: integer
+        Conditions:
+          type: array
         Symbol:
           type: string
+        Tape:
+          type: string
+        Timestamp:
+          type: string
+      required:
+        - Symbol
+        - Timestamp
+      type: object
+    key:
+      - /Symbol
+      - /Timestamp
+  examples/trades:
+    schema:
+      properties:
         Conditions:
           type: array
         Exchange:
           type: string
+        ID:
+          type: integer
         Price:
           type: number
         Size:
           type: integer
+        Symbol:
+          type: string
         Tape:
           type: string
         Timestamp:
@@ -23,9 +52,60 @@ collections:
       required:
         - ID
         - Symbol
+      type: object
     key:
       - /ID
       - /Symbol
+    projections:
+      trade_size: /Size
+      trade_timestamp: /Timestamp
+  examples/trades2:
+    schema:
+      properties:
+        conditions:
+          type: array
+        exchange:
+          type: string
+        id:
+          type: integer
+        price:
+          type: number
+        trade_size:
+          type: integer
+        symbol:
+          type: string
+        tape:
+          type: string
+        trade_timestamp:
+          type: string
+      required:
+        - id
+        - symbol
+      type: object
+    key:
+      - /id
+      - /symbol
+
+materializations:
+  examples/postgres:
+    endpoint:
+      connector:
+        image: "ghcr.io/estuary/materialize-postgres:dev"
+        config: postgres.config.yaml
+    bindings:
+      - resource:
+          table: trades
+        source: examples/trades
+        # fields:
+        #   recommended: true
+        #   exclude: ["flow_document"]
+      - resource:
+          table: quotes
+        source: examples/quotes
+      - resource:
+          table: trades2
+        source: examples/trades2
+
 captures:
   examples/source-kafka:
     endpoint:
@@ -37,13 +117,18 @@ captures:
           stream: trades
           syncMode: incremental
         target: examples/trades
+      - resource:
+          stream: quotes
+          syncMode: incremental
+        target: examples/quotes
 
-materializations:
-  examples/sqlite:
+  examples/source-postgres:
     endpoint:
-      sqlite:
-        path: database.sqlite?_journal_mode=WAL
+      connector:
+        image: "ghcr.io/estuary/source-postgres:dev"
+        config: postgres.config.yaml
     bindings:
-      - source: examples/trades
-        resource:
-          table: trades
+      - resource:
+          stream: trades
+          syncMode: incremental
+        target: examples/trades2
