@@ -6,6 +6,7 @@ require github.com/alpacahq/alpaca-trade-api-go/v2 v2.7.0
 
 require (
 	github.com/Shopify/sarama v1.36.0 // indirect
+	github.com/brianvoe/gofakeit/v6 v6.18.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/eapache/go-resiliency v1.3.0 // indirect
 	github.com/eapache/go-xerial-snappy v0.0.0-20180814174437-776d5712da21 // indirect
