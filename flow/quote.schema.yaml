@@ -1,0 +1,13 @@
+type: object
+properties:
+  AskExchange: { type: string }
+  AskPrice: { type: number }
+  AskSize: { type: integer }
+  BidExchange: { type: string }
+  BidPrice: { type: number }
+  BidSize: { type: integer }
+  Conditions: { type: array }
+  Symbol: { type: string }
+  Tape: { type: string }
+  Timestamp: { type: string }
+required: [Symbol, Timestamp]

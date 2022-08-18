@@ -1,0 +1,13 @@
+{
+  "files": [
+    "../flow_generated/flow/main.ts",
+    "../flow_generated/flow/routes.ts",
+    "../flow_generated/flow/server.ts",
+    "../flow_generated/types/examples/allTimeMinMaxPrice.d.ts",
+    "../flow_generated/types/examples/allTimeMinMaxPrice2.d.ts",
+    "../flow_generated/types/examples/quotes.d.ts",
+    "../flow_generated/types/examples/trades.d.ts",
+    "../minMax.flow.ts",
+    "../minMax2.flow.ts"
+  ]
+}

@@ -1,0 +1,40 @@
+collections:
+    examples/quotes:
+        schema: quote.schema.yaml
+        key:
+            - /Symbol
+            - /Timestamp
+        projections:
+            trade_timestamp: /Timestamp
+
+    examples/trades:
+        schema: trade.schema.yaml
+        key:
+            - /ID
+            - /Symbol
+        projections:
+            trade_size: /Size
+            trade_timestamp: /Timestamp
+
+    examples/allTimeMinMaxPrice:
+        schema:
+            $ref: trade.schema.yaml
+            reduce: { strategy: lastWriteWins }
+            properties:
+                symbol: { type: string }
+                maxPrice:
+                    type: number
+                    reduce: { strategy: maximize }
+                minPrice:
+                    type: number
+                    reduce: { strategy: minimize }
+        key: [/Symbol]
+        derivation:
+            transform:
+                minMax:
+                    source: { name: examples/trades }
+                    publish: { lambda: typescript }
+            typescript:
+                module: minMax.flow.ts
+                npmDependencies:
+                    moment: '^2.24'

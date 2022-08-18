@@ -1,0 +1,5 @@
+---
+import:
+  - captures.yaml
+  - collections.yaml
+  - materializations.yaml

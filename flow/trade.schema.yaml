@@ -1,0 +1,11 @@
+type: object
+properties:
+  Conditions: { type: array }
+  Exchange: { type: string }
+  ID: { type: integer }
+  Price: { type: number }
+  Size: { type: integer }
+  Symbol: { type: string }
+  Tape: { type: string }
+  Timestamp: { type: string }
+required: [ID, Symbol]

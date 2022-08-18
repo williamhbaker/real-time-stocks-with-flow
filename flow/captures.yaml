@@ -1,0 +1,18 @@
+import:
+  - collections.yaml
+
+captures:
+  examples/source-kafka:
+    endpoint:
+      connector:
+        image: "ghcr.io/estuary/source-kafka:dev"
+        config: source-kafka.config.yaml
+    bindings:
+      - resource:
+          stream: trades
+          syncMode: incremental
+        target: examples/trades
+      - resource:
+          stream: quotes
+          syncMode: incremental
+        target: examples/quotes

@@ -11,10 +11,11 @@ services:
 
   graphql-engine:
     image: hasura/graphql-engine:v2.10.0
+    depends_on:
+      - postgres
     ports:
       - "8088:8080" # Avoid conflicts with ports used by Flow.
-    depends_on:
-      - "postgres"
+    restart: always
     environment:
       HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
       PG_DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres

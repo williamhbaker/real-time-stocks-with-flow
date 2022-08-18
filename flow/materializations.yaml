@@ -1,0 +1,16 @@
+import:
+  - collections.yaml
+
+materializations:
+  examples/postgres:
+    endpoint:
+      connector:
+        image: "ghcr.io/estuary/materialize-postgres:dev"
+        config: postgres.config.yaml
+    bindings:
+      - resource:
+          table: trades
+        source: examples/trades
+      - resource:
+          table: quotes
+        source: examples/quotes
