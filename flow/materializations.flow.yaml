@@ -10,7 +10,7 @@ materializations:
     bindings:
       - resource:
           table: trades
-        source: examples/trades
+        source: examples/allTimeMinMaxPrice
       - resource:
           table: quotes
         source: examples/quotes

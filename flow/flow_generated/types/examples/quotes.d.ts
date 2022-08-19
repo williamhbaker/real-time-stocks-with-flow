@@ -1,6 +1,6 @@
 
 // Generated from collection schema quote.schema.yaml.
-// Referenced from collections.yaml#/collections/examples~1quotes.
+// Referenced from collections.flow.yaml#/collections/examples~1quotes.
 export type Document = {
     AskExchange?: string;
     AskPrice?: number;

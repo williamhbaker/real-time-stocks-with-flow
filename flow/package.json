@@ -1,10 +1,6 @@
 {
-  "dependencies": {
-    "moment": "^2.24"
-  },
-  "bundledDependencies": [
-    "moment"
-  ],
+  "dependencies": {},
+  "bundledDependencies": [],
   "bin": "dist/flow_generated/flow/main.js",
   "description": "NodeJS runtime of an Estuary catalog",
   "devDependencies": {

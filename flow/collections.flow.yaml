@@ -15,3 +15,23 @@ collections:
       trade_size: /Size
       trade_timestamp: /Timestamp
       total_volume: /Size
+
+  examples/allTimeMinMaxPrice:
+    schema:
+      $ref: trade.schema.yaml
+      reduce: { strategy: lastWriteWins }
+      properties:
+        maxPrice:
+          type: number
+          reduce: { strategy: maximize }
+        minPrice:
+          type: number
+          reduce: { strategy: minimize }
+    key: [/Symbol]
+    derivation:
+      transform:
+        minMax:
+          source: { name: examples/trades }
+          publish: { lambda: typescript }
+      typescript:
+        module: minMax.flow.ts

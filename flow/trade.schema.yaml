@@ -5,9 +5,7 @@ properties:
   Exchange: { type: string }
   ID: { type: integer }
   Price: { type: number }
-  Size:
-    type: integer
-    reduce: { strategy: sum }
+  Size: { type: integer }
   Symbol: { type: string }
   Tape: { type: string }
   Timestamp: { type: string }
