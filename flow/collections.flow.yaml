@@ -1,0 +1,17 @@
+collections:
+  examples/quotes:
+    schema: quote.schema.yaml
+    key:
+      - /Symbol
+      - /Timestamp
+    projections:
+      trade_timestamp: /Timestamp
+
+  examples/trades:
+    schema: trade.schema.yaml
+    key:
+      - /Symbol
+    projections:
+      trade_size: /Size
+      trade_timestamp: /Timestamp
+      total_volume: /Size

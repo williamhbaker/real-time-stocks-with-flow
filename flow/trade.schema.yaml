@@ -1,10 +1,13 @@
 type: object
+reduce: { strategy: merge }
 properties:
   Conditions: { type: array }
   Exchange: { type: string }
   ID: { type: integer }
   Price: { type: number }
-  Size: { type: integer }
+  Size:
+    type: integer
+    reduce: { strategy: sum }
   Symbol: { type: string }
   Tape: { type: string }
   Timestamp: { type: string }

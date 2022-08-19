@@ -1,11 +1,11 @@
 import:
-  - collections.yaml
+  - collections.flow.yaml
 
 materializations:
   examples/postgres:
     endpoint:
       connector:
-        image: "ghcr.io/estuary/materialize-postgres:dev"
+        image: 'ghcr.io/estuary/materialize-postgres:dev'
         config: postgres.config.yaml
     bindings:
       - resource:

@@ -16,6 +16,19 @@ import (
 	gofakeit "github.com/brianvoe/gofakeit/v6"
 )
 
+var monitoredSymbols = []string{
+	"AAPL",
+	"MSFT",
+	"AMZN",
+	"TSLA",
+	"GOOGL",
+	"GOOG",
+	"NVDA",
+	"BRK.B",
+	"META",
+	"UNH",
+}
+
 func main() {
 	useRealData := flag.Bool("use-real-data", false, "Use real data from the Alpaca API; otherwise use generated data for testing.")
 	flag.Parse()
@@ -73,10 +86,13 @@ func main() {
 	if *useRealData {
 		c := stream.NewStocksClient(
 			"iex",
-			stream.WithTrades(tradeHandler, "AAPL"),
-			stream.WithQuotes(quoteHandler, "AAPL"),
 			stream.WithCredentials(alpacaAPIKey, alpacaAPISecretKey),
+			stream.WithTrades(tradeHandler, monitoredSymbols...),
+			// stream.WithQuotes(quoteHandler, monitoredSymbols...),
 		)
+
+		c.SubscribeToTrades(tradeHandler, monitoredSymbols...)
+		c.SubscribeToQuotes(quoteHandler, monitoredSymbols...)
 
 		if err := c.Connect(ctx); err != nil {
 			log.Fatalf("could not establish connection, error: %s", err)
@@ -94,7 +110,9 @@ func main() {
 				case <-ctx.Done():
 					return
 				default:
-					tradeHandler(newMockTrade("AAPL"))
+					for _, s := range monitoredSymbols {
+						tradeHandler(newMockTrade(s))
+					}
 					time.Sleep(500 * time.Millisecond)
 				}
 			}
@@ -107,7 +125,9 @@ func main() {
 				case <-ctx.Done():
 					return
 				default:
-					quoteHandler(newMockQuote("AAPL"))
+					for _, s := range monitoredSymbols {
+						quoteHandler(newMockQuote(s))
+					}
 					time.Sleep(500 * time.Millisecond)
 				}
 			}

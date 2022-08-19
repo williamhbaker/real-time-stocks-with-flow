@@ -40,6 +40,10 @@ services:
 
   data_gen:
     build:
-      context: ../.
+      context: ./data
     depends_on:
-      - "kafka"
+      - kafka
+    environment:
+      - APCA_API_KEY_ID=${APCA_API_KEY_ID}
+      - APCA_API_SECRET_KEY=${APCA_API_SECRET_KEY}
+    command: [ "/dist/main", "--use-real-data" ]

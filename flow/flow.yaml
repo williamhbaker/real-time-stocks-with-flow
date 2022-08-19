@@ -1,5 +1,5 @@
 ---
 import:
-  - captures.yaml
-  - collections.yaml
-  - materializations.yaml
+  - captures.flow.yaml
+  - collections.flow.yaml
+  - materializations.flow.yaml
