@@ -9,8 +9,11 @@ materializations:
         config: postgres.config.yaml
     bindings:
       - resource:
-          table: trades
+          table: allTimeMinMax
         source: examples/allTimeMinMaxPrice
+      - resource:
+          table: meanReversionSignals
+        source: examples/meanReversion
       - resource:
           table: quotes
         source: examples/quotes

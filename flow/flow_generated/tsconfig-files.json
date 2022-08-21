@@ -4,8 +4,10 @@
     "../flow_generated/flow/routes.ts",
     "../flow_generated/flow/server.ts",
     "../flow_generated/types/examples/allTimeMinMaxPrice.d.ts",
+    "../flow_generated/types/examples/meanReversion.d.ts",
     "../flow_generated/types/examples/quotes.d.ts",
     "../flow_generated/types/examples/trades.d.ts",
+    "../meanReversion.flow.ts",
     "../minMax.flow.ts"
   ]
 }

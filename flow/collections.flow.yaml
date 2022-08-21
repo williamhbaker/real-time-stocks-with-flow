@@ -10,7 +10,7 @@ collections:
   examples/trades:
     schema: trade.schema.yaml
     key:
-      - /Symbol
+      - /ID
     projections:
       trade_size: /Size
       trade_timestamp: /Timestamp
@@ -35,3 +35,62 @@ collections:
           publish: { lambda: typescript }
       typescript:
         module: minMax.flow.ts
+
+  examples/meanReversion:
+    schema:
+      reduce: { strategy: lastWriteWins }
+      type: object
+      properties:
+        symbol: { type: string }
+        price: { type: number }
+        trailingAverage: { type: number }
+        signal: { type: string }
+      required: [symbol, price, trailingAverage, signal]
+    key: [/symbol]
+    derivation:
+      register:
+        schema:
+          reduce: { strategy: merge }
+          type: object
+          properties:
+            total:
+              type: number
+              reduce: { strategy: sum }
+            count:
+              type: number
+              reduce: { strategy: sum }
+          required: [total, count]
+        initial: { total: 0, count: 0 }
+      transform:
+        meanReversion:
+          source: { name: examples/trades }
+          shuffle: { key: [/Symbol] }
+          update: { lambda: typescript }
+          publish: { lambda: typescript }
+      typescript:
+        module: meanReversion.flow.ts
+
+tests:
+  examples/test/meanReversion:
+    - ingest:
+        collection: examples/trades
+        documents:
+          - ID: 1
+            Symbol: 'AAPL'
+            Size: 1
+            Price: 60
+          - ID: 2
+            Symbol: 'AAPL'
+            Size: 2
+            Price: 10
+          - ID: 3
+            Symbol: 'AAPL'
+            Size: 1
+            Price: 40
+    - verify:
+        collection: examples/meanReversion
+        documents:
+          - symbol: 'AAPL'
+            price: 40
+            signal: 'sell'
+            trailingAverage: 30

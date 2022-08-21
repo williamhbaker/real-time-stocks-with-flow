@@ -3,23 +3,19 @@ import './App.css';
 
 import { gql, useSubscription } from '@apollo/client';
 
-const TRADES_SUBSCRIPTION = gql`
-  subscription trades {
-    trades {
-      symbol
-      total_volume
-      price
-    }
+const SIGNALS_SUBSCRIPTION = gql`
+subscription Signals {
+  meanreversionsignals {
+    price
+    signal
+    symbol
+    trailingaverage
   }
+}
 `;
 
-function LatestTrades() {
-  const { data, loading } = useSubscription(TRADES_SUBSCRIPTION);
-  return <h4>New trades: {!loading && data.trades}</h4>;
-}
-
 function DisplayTrades() {
-  const { loading, error, data } = useSubscription(TRADES_SUBSCRIPTION);
+  const { loading, error, data } = useSubscription(SIGNALS_SUBSCRIPTION);
 
   if (loading) return <p>Loading...</p>;
   if (error) {
@@ -27,7 +23,7 @@ function DisplayTrades() {
     return <p>Error :(</p>
   };
 
-  return data.trades.sort((a,b) => {
+  return data.meanreversionsignals.sort((a,b) => {
     if (a.symbol < b.symbol) {
       return -1
     } else if (a.symbol > b.symbol) {
@@ -35,9 +31,9 @@ function DisplayTrades() {
     }
 
     return 0
-  }).map(({ symbol, total_volume, price }) => (
+  }).map(({ symbol, signal, price, trailingaverage }) => (
     <p key={symbol}>
-      {symbol}: Vol: {total_volume} | Price: {price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+      {symbol}: | Recommendation: {signal} | Avg: {trailingaverage.toLocaleString(undefined, { minimumFractionDigits: 2 })} | Price: {price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
     </p>
   ));
 }
