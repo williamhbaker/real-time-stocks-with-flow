@@ -19,7 +19,7 @@ collections:
   examples/allTimeMinMaxPrice:
     schema:
       $ref: trade.schema.yaml
-      reduce: { strategy: lastWriteWins }
+      reduce: { strategy: merge }
       properties:
         maxPrice:
           type: number
