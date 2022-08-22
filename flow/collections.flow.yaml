@@ -70,6 +70,41 @@ collections:
       typescript:
         module: meanReversion.flow.ts
 
+  examples/meanReversionTrailing:
+    schema:
+      reduce: { strategy: lastWriteWins }
+      type: object
+      properties:
+        symbol: { type: string }
+        price: { type: number }
+        trailingAverage: { type: number }
+        signal: { type: string }
+      required: [symbol, price, trailingAverage, signal]
+    key: [/symbol]
+    derivation:
+      register:
+        schema:
+          reduce: { strategy: merge }
+          type: object
+          patternProperties:
+            '^[0-9]+$':
+              type: object
+              properties:
+                price: { type: number }
+                timestamp: { type: string }
+              reduce: { strategy: lastWriteWins }
+        initial: {}
+      transform:
+        meanReversionTrailing:
+          source: { name: examples/trades }
+          shuffle: { key: [/Symbol] }
+          update: { lambda: typescript }
+          publish: { lambda: typescript }
+      typescript:
+        module: meanReversionTrailing.flow.ts
+
+# TODO: Tests for examples/meanReversionTrailing.
+
 tests:
   examples/test/meanReversion:
     - ingest:
@@ -79,14 +114,17 @@ tests:
             Symbol: 'AAPL'
             Size: 1
             Price: 60
+            Timestamp: '2022-08-22T13:00:49.520752411Z'
           - ID: 2
             Symbol: 'AAPL'
             Size: 2
             Price: 10
+            Timestamp: '2022-08-22T13:10:49.520752411Z'
           - ID: 3
             Symbol: 'AAPL'
             Size: 1
             Price: 40
+            Timestamp: '2022-08-22T12:13:49.520752411Z'
     - verify:
         collection: examples/meanReversion
         documents:

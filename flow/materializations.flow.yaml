@@ -15,5 +15,8 @@ materializations:
           table: meanReversionSignals
         source: examples/meanReversion
       - resource:
+          table: meanReversionTrailing
+        source: examples/meanReversionTrailing
+      - resource:
           table: quotes
         source: examples/quotes

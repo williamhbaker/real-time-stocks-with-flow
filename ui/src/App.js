@@ -42,21 +42,28 @@ function DisplayTrades() {
           <div class="level-item has-text-centered">
             <div>
               <p class="heading is-size-6">Recommendation</p>
-              <p class={signal == "buy" ? "title is-size-5 has-text-success": "title is-size-5 has-text-danger"}>{signal.toUpperCase()}</p>
+              <p class={signal === "buy" ? "title is-size-5 has-text-success": "title is-size-5 has-text-danger"}>{signal.toUpperCase()}</p>
             </div>
           </div>
 
           <div class="level-item has-text-centered">
             <div>
               <p class="heading is-size-6">All-Time Average Price</p>
-              <p class="title is-size-5">{trailingaverage.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+              <p class="title is-size-5">{trailingaverage.toFixed(2)}</p>
+            </div>
+          </div>
+
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading is-size-6">Trailing Average</p>
+              <p class="title is-size-5">{price.toFixed(2)}</p>
             </div>
           </div>
 
           <div class="level-item has-text-centered">
             <div>
               <p class="heading is-size-6">Last Traded At</p>
-              <p class="title is-size-5">{price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+              <p class="title is-size-5">{price.toFixed(2)}</p>
             </div>
           </div>
 

@@ -7,10 +7,12 @@ export type Lambda = (source: Document, register?: Document, previous?: Document
 // Import derivation classes from their implementation modules.
 import { Derivation as examplesAllTimeMinMaxPrice } from '../../minMax.flow';
 import { Derivation as examplesMeanReversion } from '../../meanReversion.flow';
+import { Derivation as examplesMeanReversionTrailing } from '../../meanReversionTrailing.flow';
 
 // Build instances of each class, which will be bound to this module's router.
 const __examplesAllTimeMinMaxPrice: examplesAllTimeMinMaxPrice = new examplesAllTimeMinMaxPrice();
 const __examplesMeanReversion: examplesMeanReversion = new examplesMeanReversion();
+const __examplesMeanReversionTrailing: examplesMeanReversionTrailing = new examplesMeanReversionTrailing();
 
 // Now build the router that's used for transformation lambda dispatch.
 const routes: { [path: string]: Lambda | undefined } = {
@@ -22,6 +24,12 @@ const routes: { [path: string]: Lambda | undefined } = {
     ) as Lambda,
     '/derive/examples/meanReversion/meanReversion/Publish': __examplesMeanReversion.meanReversionPublish.bind(
         __examplesMeanReversion,
+    ) as Lambda,
+    '/derive/examples/meanReversionTrailing/meanReversionTrailing/Update': __examplesMeanReversionTrailing.meanReversionTrailingUpdate.bind(
+        __examplesMeanReversionTrailing,
+    ) as Lambda,
+    '/derive/examples/meanReversionTrailing/meanReversionTrailing/Publish': __examplesMeanReversionTrailing.meanReversionTrailingPublish.bind(
+        __examplesMeanReversionTrailing,
     ) as Lambda,
 };
 
