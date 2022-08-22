@@ -29,15 +29,13 @@ export class Derivation implements IDerivation {
     register: Register,
     _previous: Register,
   ): Document[] {
-    console.log(register);
-
-    // Get current time
     const currentTime = new Date();
 
     let summedPrices = 0;
     let countedPrices = 0;
 
-    // For all the values in the register, sum the prices and increment a counter if they are within timeWindow
+    // For all the values in the register, sum the prices and increment a counter if they are within
+    // timeWindow
     for (const bucket in register) {
       let val = register[bucket];
       if (!val.timestamp || !val.price) {
@@ -70,6 +68,7 @@ export class Derivation implements IDerivation {
     console.log('COUNTED', countedPrices);
     console.log('SUMMED', summedPrices);
     console.log('AVG', avg);
+    console.log('PRICE', thisPrice);
 
     return [
       {

@@ -18,15 +18,15 @@ import (
 
 var monitoredSymbols = []string{
 	"AAPL",
-	// "MSFT",
-	// "AMZN",
-	// "TSLA",
-	// "GOOGL",
-	// "GOOG",
-	// "NVDA",
-	// "BRK.B",
-	// "META",
-	// "UNH",
+	"MSFT",
+	"AMZN",
+	"TSLA",
+	"GOOGL",
+	"GOOG",
+	"NVDA",
+	"BRK.B",
+	"META",
+	"UNH",
 }
 
 func main() {

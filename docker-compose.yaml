@@ -46,4 +46,4 @@ services:
     environment:
       - APCA_API_KEY_ID=${APCA_API_KEY_ID}
       - APCA_API_SECRET_KEY=${APCA_API_SECRET_KEY}
-    command: [ "/dist/main" ]
+    command: [ "/dist/main", "--use-real-data" ]
